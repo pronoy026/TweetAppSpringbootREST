@@ -1,12 +1,19 @@
 package com.tweetapp.server;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.tweetapp.server.model.AuthUser;
+import com.tweetapp.server.model.Comment;
 import com.tweetapp.server.model.DatabaseSequence;
+import com.tweetapp.server.model.Tweet;
 import com.tweetapp.server.model.User;
 import com.tweetapp.server.repository.AuthRepository;
 import com.tweetapp.server.repository.DatabaseSequenceRepository;
@@ -42,7 +49,27 @@ public class TweetappServerApplication implements CommandLineRunner{
 		
 		
 		if(databaseSequenceRepository.findById("TweetSequence").isPresent()) {
-			Long maxIdValue = tweetRepository.count();
+			// getting the max tid value from Tweet collection and updating
+			Long maxIdValue = tweetRepository.findAll().stream().max(Comparator.comparing(Tweet::getTid)).get().getTid();
+			DatabaseSequence databaseSequence = databaseSequenceRepository.findById("TweetSequence").get();
+			databaseSequence.setSecValue(maxIdValue);
+			databaseSequenceRepository.save(databaseSequence);
+		} else {
+			DatabaseSequence databaseSequence = new DatabaseSequence("TweetSequence", new Long(0));
+			databaseSequenceRepository.save(databaseSequence);
+		}
+		
+		if(databaseSequenceRepository.findById("CommentSequence").isPresent()) {
+			// getting the max tid value from Tweet collection's Comments List and updating
+			List<List<Comment>> list1= tweetRepository.findAll().stream().map(Tweet::getComments).collect(Collectors.toList());
+			
+			List<Comment> list2 = new ArrayList<Comment>();
+			list1.stream().forEach(cList-> {
+				cList.forEach(c-> list2.add(c));
+			});
+			
+			Long maxIdValue = list2.stream().max(Comparator.comparing(Comment::getCid)).get().getCid();
+			
 			DatabaseSequence databaseSequence = databaseSequenceRepository.findById("TweetSequence").get();
 			databaseSequence.setSecValue(maxIdValue);
 			databaseSequenceRepository.save(databaseSequence);

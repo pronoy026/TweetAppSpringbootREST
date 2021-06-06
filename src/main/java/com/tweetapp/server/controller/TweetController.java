@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.tweetapp.server.api.TweetApi;
+import com.tweetapp.server.dto.CommentDto;
 import com.tweetapp.server.dto.TweetDto;
 import com.tweetapp.server.service.impl.TweetServiceImpl;
 
@@ -15,8 +16,27 @@ public class TweetController implements TweetApi{
 	private TweetServiceImpl tweetServiceImpl;
 	
 	@Override
-	public ResponseEntity<?> login(String username, TweetDto tweetDto) {
+	public ResponseEntity<?> postTweet(String username, TweetDto tweetDto) {
 		return tweetServiceImpl.postTweet(tweetDto, username);
 	}
 
+	@Override
+	public ResponseEntity<?> updateTweet(String username, String id, TweetDto tweetDto) {
+		return tweetServiceImpl.updateTweet(username, id, tweetDto);
+	}
+
+	@Override
+	public ResponseEntity<?> deleteTweet(String username, String id) {
+		return tweetServiceImpl.deleteTweet(username, id);
+	}
+
+	@Override
+	public ResponseEntity<?> likeTweet(String username, String id) {
+		return tweetServiceImpl.likeTweet(username, id);
+	}
+
+	@Override
+	public ResponseEntity<?> postComment(String username, String id, CommentDto commentDto) {
+		return tweetServiceImpl.postComment(username, id, commentDto);
+	}
 }

@@ -1,21 +1,26 @@
 package com.tweetapp.server.dto;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import com.mongodb.internal.connection.Time;
+import com.tweetapp.server.model.Comment;
 
 public class TweetDto {
 
 	public TweetDto() {
 	}
-	
-	public TweetDto(Long tid, String content, String like, String commentCount, Time time, String username) {
+
+	public TweetDto(Long tid, String content, Long like, Long commentCount, Time time, String username,
+			List<Comment> comments) {
 		this.tid = tid;
 		this.content = content;
 		this.like = like;
 		this.commentCount = commentCount;
 		this.time = time;
 		this.username = username;
+		this.comments = comments;
 	}
 
 	@Id
@@ -23,13 +28,15 @@ public class TweetDto {
 	
 	private String content;
 	
-	private String like;
+	private Long like;
 	
-	private String commentCount;
+	private Long commentCount;
 	
 	private Time time;
 	
 	private String username;
+	
+	private List<Comment> comments;
 
 	public Long getTid() {
 		return tid;
@@ -47,19 +54,19 @@ public class TweetDto {
 		this.content = content;
 	}
 
-	public String getLike() {
+	public Long getLike() {
 		return like;
 	}
 
-	public void setLike(String like) {
+	public void setLike(Long like) {
 		this.like = like;
 	}
 
-	public String getCommentCount() {
+	public Long getCommentCount() {
 		return commentCount;
 	}
 
-	public void setCommentCount(String commentCount) {
+	public void setCommentCount(Long commentCount) {
 		this.commentCount = commentCount;
 	}
 
@@ -79,4 +86,11 @@ public class TweetDto {
 		this.username = username;
 	}
 
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 }

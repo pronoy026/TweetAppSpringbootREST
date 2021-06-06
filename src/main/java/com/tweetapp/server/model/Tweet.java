@@ -1,5 +1,7 @@
 package com.tweetapp.server.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,13 +13,15 @@ public class Tweet {
 	public Tweet() {
 	}
 	
-	public Tweet(Long tid, String content, String like, String commentCount, Time time, String username) {
+	public Tweet(Long tid, String content, Long like, Long commentCount, Time time, String username,
+			List<Comment> comments) {
 		this.tid = tid;
 		this.content = content;
 		this.like = like;
 		this.commentCount = commentCount;
 		this.time = time;
 		this.username = username;
+		this.comments = comments;
 	}
 
 	@Id
@@ -25,13 +29,15 @@ public class Tweet {
 	
 	private String content;
 	
-	private String like;
+	private Long like;
 	
-	private String commentCount;
+	private Long commentCount;
 	
 	private Time time;
 	
 	private String username;
+	
+	private List<Comment> comments;
 
 	public Long getTid() {
 		return tid;
@@ -49,19 +55,19 @@ public class Tweet {
 		this.content = content;
 	}
 
-	public String getLike() {
+	public Long getLike() {
 		return like;
 	}
 
-	public void setLike(String like) {
+	public void setLike(Long like) {
 		this.like = like;
 	}
 
-	public String getCommentCount() {
+	public Long getCommentCount() {
 		return commentCount;
 	}
 
-	public void setCommentCount(String commentCount) {
+	public void setCommentCount(Long commentCount) {
 		this.commentCount = commentCount;
 	}
 
@@ -80,5 +86,12 @@ public class Tweet {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
 
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 }
