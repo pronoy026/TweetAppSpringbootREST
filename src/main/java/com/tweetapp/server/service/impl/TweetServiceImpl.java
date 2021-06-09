@@ -1,5 +1,7 @@
 package com.tweetapp.server.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class TweetServiceImpl implements TweetService{
 		tweet.setUsername(username);
 		
 		tweetRepository.save(tweet);
-		return ResponseEntity.status(HttpStatus.CREATED).body("Tweet posted succsessfully!");
+		return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
 	}
 
 	@Override
@@ -70,7 +72,13 @@ public class TweetServiceImpl implements TweetService{
 		comment.setName(commentDto.getName());
 		tweet.getComments().add(comment);
 		tweetRepository.save(tweet);
-		return null;
+		return ResponseEntity.status(HttpStatus.OK).body("Comment posted successfully!");
+	}
+
+	@Override
+	public ResponseEntity<?> getAllTweets() {
+		List<Tweet> alltweets = tweetRepository.findAll();
+		return ResponseEntity.status(HttpStatus.OK).body(alltweets);
 	}
 
 }

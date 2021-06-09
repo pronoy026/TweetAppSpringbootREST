@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 
-import com.mongodb.internal.connection.Time;
 import com.tweetapp.server.model.Comment;
 
 public class TweetDto {
@@ -12,7 +11,7 @@ public class TweetDto {
 	public TweetDto() {
 	}
 
-	public TweetDto(Long tid, String content, Long like, Long commentCount, Time time, String username,
+	public TweetDto(Long tid, String content, Long like, Long commentCount, String time, String username,
 			List<Comment> comments) {
 		this.tid = tid;
 		this.content = content;
@@ -32,7 +31,7 @@ public class TweetDto {
 	
 	private Long commentCount;
 	
-	private Time time;
+	private String time;
 	
 	private String username;
 	
@@ -70,11 +69,11 @@ public class TweetDto {
 		this.commentCount = commentCount;
 	}
 
-	public Time getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Time time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 

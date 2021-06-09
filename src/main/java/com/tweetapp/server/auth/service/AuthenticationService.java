@@ -60,7 +60,7 @@ public class AuthenticationService {
 		AuthUser authUser = new AuthUser(authRequest.getUsername(), authRequest.getPassword());
 		try {
 			String token = createAuthToken(authUser);
-			AuthResponse response = new AuthResponse(token);
+			AuthResponse response = new AuthResponse(token, authRequest.getUsername());
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Username or Password is incorrect!");
@@ -92,7 +92,7 @@ public class AuthenticationService {
 		userRepository.save(user);
 		
 		token = createAuthToken(authUser);
-		AuthResponse response = new AuthResponse(token);
+		AuthResponse response = new AuthResponse(token, userDto.getUsername());
 		return ResponseEntity.ok(response);	
 	}
 }

@@ -18,4 +18,6 @@ public interface TweetService {
 	public ResponseEntity<?> likeTweet(String username, String id);
 	
 	public ResponseEntity<?> postComment(String username, String id, CommentDto commentDto);
+	
+	public ResponseEntity<?> getAllTweets();
 }

@@ -39,4 +39,9 @@ public class TweetController implements TweetApi{
 	public ResponseEntity<?> postComment(String username, String id, CommentDto commentDto) {
 		return tweetServiceImpl.postComment(username, id, commentDto);
 	}
+
+	@Override
+	public ResponseEntity<?> getAllTweets() {
+		return tweetServiceImpl.getAllTweets();
+	}
 }

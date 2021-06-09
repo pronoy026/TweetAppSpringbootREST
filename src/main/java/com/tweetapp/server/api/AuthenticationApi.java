@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tweetapp.server.auth.model.AuthLoginRequest;
 import com.tweetapp.server.dto.UserDto;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1.0/tweets")
 @RestController
 public interface AuthenticationApi {

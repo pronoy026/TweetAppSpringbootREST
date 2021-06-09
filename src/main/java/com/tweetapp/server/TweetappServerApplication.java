@@ -3,6 +3,7 @@ package com.tweetapp.server;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,19 +48,29 @@ public class TweetappServerApplication implements CommandLineRunner{
 		AuthUser authUser = new AuthUser("ron","ron1");
 		authRepository.save(authUser);
 		
+		Optional<DatabaseSequence> tdatabaseSequence = databaseSequenceRepository.findById("TweetSequence");
 		
-		if(databaseSequenceRepository.findById("TweetSequence").isPresent()) {
+		if(tdatabaseSequence.isPresent()) {
+			if(tdatabaseSequence.get().getSecValue()>0) {
 			// getting the max tid value from Tweet collection and updating
 			Long maxIdValue = tweetRepository.findAll().stream().max(Comparator.comparing(Tweet::getTid)).get().getTid();
 			DatabaseSequence databaseSequence = databaseSequenceRepository.findById("TweetSequence").get();
 			databaseSequence.setSecValue(maxIdValue);
 			databaseSequenceRepository.save(databaseSequence);
+			}
+			else {
+				DatabaseSequence databaseSequence = new DatabaseSequence("TweetSequence", new Long(0));
+				databaseSequenceRepository.save(databaseSequence);
+			}	
 		} else {
 			DatabaseSequence databaseSequence = new DatabaseSequence("TweetSequence", new Long(0));
 			databaseSequenceRepository.save(databaseSequence);
 		}
 		
-		if(databaseSequenceRepository.findById("CommentSequence").isPresent()) {
+		Optional<DatabaseSequence> cdatabaseSequence = databaseSequenceRepository.findById("CommentSequence");
+		
+		if(cdatabaseSequence.isPresent()) {
+			if(cdatabaseSequence.get().getSecValue()>0) {
 			// getting the max tid value from Tweet collection's Comments List and updating
 			List<List<Comment>> list1= tweetRepository.findAll().stream().map(Tweet::getComments).collect(Collectors.toList());
 			
@@ -73,8 +84,13 @@ public class TweetappServerApplication implements CommandLineRunner{
 			DatabaseSequence databaseSequence = databaseSequenceRepository.findById("TweetSequence").get();
 			databaseSequence.setSecValue(maxIdValue);
 			databaseSequenceRepository.save(databaseSequence);
+			}
+			else {
+				DatabaseSequence databaseSequence = new DatabaseSequence("CommentSequence", new Long(0));
+				databaseSequenceRepository.save(databaseSequence);
+			}
 		} else {
-			DatabaseSequence databaseSequence = new DatabaseSequence("TweetSequence", new Long(0));
+			DatabaseSequence databaseSequence = new DatabaseSequence("CommentSequence", new Long(0));
 			databaseSequenceRepository.save(databaseSequence);
 		}
 

@@ -1,13 +1,13 @@
 package com.tweetapp.server.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.tweetapp.server.auth.service.DatabaseSequenceService;
 import com.tweetapp.server.model.DatabaseSequence;
 import com.tweetapp.server.repository.DatabaseSequenceRepository;
 
-@Component
+@Service
 public class DatabaseSequenceServiceImpl implements DatabaseSequenceService{
 
 	@Autowired

@@ -5,15 +5,13 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.mongodb.internal.connection.Time;
-
 @Document(collection = "Tweet")
 public class Tweet {
 	
 	public Tweet() {
 	}
 	
-	public Tweet(Long tid, String content, Long like, Long commentCount, Time time, String username,
+	public Tweet(Long tid, String content, Long like, Long commentCount, String time, String username,
 			List<Comment> comments) {
 		this.tid = tid;
 		this.content = content;
@@ -33,7 +31,7 @@ public class Tweet {
 	
 	private Long commentCount;
 	
-	private Time time;
+	private String time;
 	
 	private String username;
 	
@@ -71,11 +69,11 @@ public class Tweet {
 		this.commentCount = commentCount;
 	}
 
-	public Time getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Time time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
