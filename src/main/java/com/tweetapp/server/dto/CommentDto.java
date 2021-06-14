@@ -1,10 +1,8 @@
 package com.tweetapp.server.dto;
 
-import com.mongodb.internal.connection.Time;
-
 public class CommentDto {
 
-	public CommentDto(Long cid, String content, String username, String name, Time time) {
+	public CommentDto(Long cid, String content, String username, String name, String time) {
 		this.cid = cid;
 		this.content = content;
 		this.username = username;
@@ -23,7 +21,7 @@ public class CommentDto {
 	
 	private String name;
 	
-	private Time time;
+	private String time;
 
 	public Long getCid() {
 		return cid;
@@ -57,11 +55,11 @@ public class CommentDto {
 		this.name = name;
 	}
 
-	public Time getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(Time time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 	

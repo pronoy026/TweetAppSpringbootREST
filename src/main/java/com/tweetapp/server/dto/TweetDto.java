@@ -12,13 +12,15 @@ public class TweetDto {
 	}
 
 	public TweetDto(Long tid, String content, Long like, Long commentCount, String time, String username,
-			List<Comment> comments) {
+			String firstname, String lastname, List<Comment> comments) {
 		this.tid = tid;
 		this.content = content;
 		this.like = like;
 		this.commentCount = commentCount;
 		this.time = time;
 		this.username = username;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.comments = comments;
 	}
 
@@ -34,6 +36,10 @@ public class TweetDto {
 	private String time;
 	
 	private String username;
+	
+	private String firstname;
+
+	private String lastname;
 	
 	private List<Comment> comments;
 
@@ -83,6 +89,22 @@ public class TweetDto {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public List<Comment> getComments() {

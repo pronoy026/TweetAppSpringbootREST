@@ -1,6 +1,8 @@
 package com.tweetapp.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,13 +14,18 @@ import com.tweetapp.server.dto.CommentDto;
 import com.tweetapp.server.dto.TweetDto;
 import com.tweetapp.server.model.Comment;
 import com.tweetapp.server.model.Tweet;
+import com.tweetapp.server.model.User;
 import com.tweetapp.server.repository.TweetRepository;
+import com.tweetapp.server.repository.UserRepository;
 
 @Service
 public class TweetServiceImpl implements TweetService{
 
 	@Autowired
 	private TweetRepository tweetRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private DatabaseSequenceServiceImpl databaseSequenceServiceImpl;
@@ -32,7 +39,11 @@ public class TweetServiceImpl implements TweetService{
 		tweet.setCommentCount(tweetDto.getCommentCount());
 		tweet.setTime(tweetDto.getTime());
 		tweet.setUsername(username);
-		
+		List<Comment> commentList = new ArrayList<Comment>();
+		tweet.setComments(commentList);
+		User user = userRepository.findById(tweetDto.getUsername()).get();
+		tweet.setFirstname(user.getFirstname());
+		tweet.setLastname(user.getLastname());
 		tweetRepository.save(tweet);
 		return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
 	}
@@ -62,14 +73,21 @@ public class TweetServiceImpl implements TweetService{
 	}
 
 	@Override
-	public ResponseEntity<?> postComment(String username, String id, CommentDto commentDto) {
-		Tweet tweet = tweetRepository.findById(id).get();
+	public ResponseEntity<?> postComment(String username, String tid, CommentDto commentDto) {
+		List<Tweet> tweetList = tweetRepository.findAll();
+		Long tidLong = Long.parseLong(tid);
+		tweetList = tweetList.stream().filter(t-> t.getTid().equals(tidLong)).collect(Collectors.toList());
+		Tweet tweet = tweetList.get(0);
 		Comment comment = new Comment();
 		comment.setCid(databaseSequenceServiceImpl.generateNextIdValue("CommentSequence"));
 		comment.setContent(commentDto.getContent());
 		comment.setTime(commentDto.getTime());
-		comment.setUsername(commentDto.getUsername());
-		comment.setName(commentDto.getName());
+		comment.setUsername(username);
+		//
+		User user1 = userRepository.findById(username).get();
+		String nameUser = user1.getFirstname()+" "+user1.getLastname();
+		//
+		comment.setName(nameUser);
 		tweet.getComments().add(comment);
 		tweetRepository.save(tweet);
 		return ResponseEntity.status(HttpStatus.OK).body("Comment posted successfully!");
